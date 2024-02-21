@@ -1,0 +1,32 @@
+<div class="container mt-5 pt-5">
+    <div class="row">
+      <ng-container *ngIf="(bookedHotels$ | async) as bookedHotels">
+        <ng-container *ngIf="bookedHotels.length > 0; else noBookings">
+          <div class="col-md-12 mb-4" *ngFor="let hotel of bookedHotels">
+            <div class="card">
+              <div class="row no-gutters">
+                <div class="col-md-2">
+                  <img class="card-img hotel-image" [src]="hotel.imageUrl" alt="Hotel Image">
+                </div>
+                <div class="col-md-10">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ hotel.name }}</h5>
+                    <p class="card-text">Location: {{ hotel.location }}</p>
+                    <p class="card-text">Total Price: <strong>{{ hotel.totalPrice | currency:'INR':'symbol':'1.0-0' }}</strong></p>
+                    <p class="card-text">Check-in: <strong>{{ hotel.checkInDate | date:'dd-MM-yyyy' }}</strong></p>
+                    <p class="card-text">Check-out: <strong>{{ hotel.checkOutDate | date:'dd-MM-yyyy' }}</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noBookings>
+          <div class="col-md-12 text-center">
+            <h1>No bookings have been made.</h1>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
+  </div>
+  

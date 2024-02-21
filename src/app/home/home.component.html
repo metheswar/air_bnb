@@ -1,0 +1,65 @@
+<div class="container mt-5 pt-5 ms-1 me-1">
+  <div class="row">
+
+    <div class="col-md-3">
+
+      <input type="text" class="form-control mb-3" placeholder="Search hotels..." [(ngModel)]="searchTerm" (input)="onSearch()">
+
+      <div class="amenities-filter">
+        <h4>Amenities</h4>
+        <div *ngFor="let amenity of amenities" class="form-check">
+          <input type="checkbox" class="form-check-input" [value]="amenity" (change)="onFilterByAmenity(amenity)" [checked]="selectedAmenities.includes(amenity)">
+          <label class="form-check-label">{{ amenity }}</label>
+        </div>
+      </div>
+
+      <div class="cities-filter">
+        <h4>Cities</h4>
+        <div *ngFor="let city of cities" class="form-check">
+          <input type="checkbox" class="form-check-input" [value]="city" (change)="onFilterByCity(city)" [checked]="selectedCities.includes(city)">
+          <label class="form-check-label">{{ city }}</label>
+        </div>
+      </div>
+
+      <div class="selected-filters mt-3">
+        <span *ngFor="let amenity of selectedAmenities" class="badge bg-primary me-2">{{ amenity }} <span class="remove-filter" (click)="onFilterByAmenity(amenity)" style="cursor: pointer;">✕</span></span>
+        <span *ngFor="let city of selectedCities" class="badge bg-primary me-2">{{ city }} <span class="remove-filter" (click)="onFilterByCity(city)" style="cursor: pointer;">✕</span></span>        
+      </div>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="row">
+        <ng-container *ngIf="filteredHotels.length > 0; else noHotels">
+          <div class="col-md-4" *ngFor="let hotel of filteredHotels">
+            <div class="card mb-4 shadow-sm">
+              <img class="card-img-top" [src]="hotel.imageUrl" alt="Hotel Image">
+              <div class="card-body">
+                <h5 class="card-title">{{ hotel.name }}</h5>
+                <p class="card-text">{{ hotel.description }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ hotel.location }}</p>
+                <ul class="list-unstyled">
+                  <li *ngFor="let amenity of hotel.amenities">
+                    <i class="fas fa-check"></i> {{ amenity }}
+                  </li>
+                </ul>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="onViewDetails(hotel.id)">View Details</button>
+                  </div>
+                  <small class="text-muted">Price per night: <span class="price">{{ hotel.price | currency:'INR':'symbol':'1.0-0' }}</span></small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noHotels>
+          <div class="col-md-12 text-center mt-3">
+            <p>No hotels found</p>
+          </div>
+        </ng-template>
+      </div>
+
+    </div>
+  </div>
+</div>
